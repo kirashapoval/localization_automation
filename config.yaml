@@ -1,0 +1,22 @@
+# Translation Configuration
+source_language: "en"
+target_languages:
+  - "de"  # German
+  - "es"  # Spanish
+  - "fr"  # French
+  # Add more languages as needed
+
+# Processing Options
+skip_already_translated: true
+batch_size: 10  # Number of text segments to send in one API call
+max_retries: 3
+retry_delay: 1  # seconds
+
+# Output Options
+output_suffix: true  # Add language code suffix to filenames
+output_directory: null  # null = same as input directory
+
+# API Settings
+api_rate_limit: 60  # requests per minute
+timeout: 30  # seconds
+
