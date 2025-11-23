@@ -1,194 +1,238 @@
-# 🌐 HTML Localization Automation Tool
+# HTML Translation Automation Tool
 
-A powerful web-based tool that automatically translates HTML files into multiple languages while preserving all structure, formatting, and technical elements using Google Gemini AI.
+Automatically translate HTML files while preserving all structure, formatting, and technical elements using Google Gemini AI.
 
-![HTML Localizer](https://img.shields.io/badge/AI-Gemini%202.5%20Flash-green)
-![Python](https://img.shields.io/badge/Python-3.8+-blue)
-![Flask](https://img.shields.io/badge/Flask-3.0-lightgrey)
+## Features
 
-## ✨ Features
+- ✅ **Batch Processing**: Translate multiple HTML files at once
+- ✅ **Structure Preservation**: Maintains all HTML tags, classes, IDs, and attributes
+- ✅ **Smart Text Extraction**: Only translates visible content, preserves code/scripts
+- ✅ **Multi-language Support**: Translate to multiple languages in one run
+- ✅ **Progress Tracking**: Real-time progress bars and detailed logging
+- ✅ **Error Handling**: Automatic retries with exponential backoff
+- ✅ **Quality Controls**: UTF-8 encoding, HTML validation, special character handling
 
-- 🎨 **Beautiful Dark UI** - Modern glassmorphism design with emerald accents
-- 🤖 **AI-Powered Translation** - Uses Google Gemini 2.5 Flash for high-quality translations
-- 📁 **Batch Processing** - Upload and translate multiple HTML files simultaneously
-- 🌍 **Multi-Language Support** - Translate to German, Spanish, French, Italian, Japanese, Dutch, Turkish
-- 🔄 **Real-Time Progress** - Watch translations happen with live terminal output and animated progress bar
-- 🎯 **Structure Preservation** - Maintains all HTML tags, CSS classes, attributes, and formatting
-- 📊 **Smart Text Extraction** - Only translates visible content, keeps scripts and code intact
-- ⚡ **Fast & Efficient** - Optimized API calls with batching and rate limiting
+## Installation
 
-## 🚀 Quick Start
+1. **Install Python 3.8+** (if not already installed)
 
-### Prerequisites
-
-- Python 3.8 or higher
-- Google Gemini API key ([Get one here](https://makersuite.google.com/app/apikey))
-
-### Installation
-
-1. **Clone the repository**
-```bash
-git clone https://github.com/kirashapoval/localization_automation.git
-cd localization_automation
-```
-
-2. **Install dependencies**
+2. **Install dependencies**:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. **Set up your API key**
+3. **Set up API key**:
+   - Your API key is already configured in `api_key.txt`
+   - Alternatively, set environment variable: `export GEMINI_API_KEY=your_key_here`
 
-Create a file named `api_key.txt` in the project root and paste your Gemini API key:
-```bash
-echo "YOUR_GEMINI_API_KEY" > api_key.txt
-```
+## Quick Start
 
-4. **Run the application**
-```bash
-python app.py
-```
-
-5. **Open your browser**
-
-Navigate to `http://127.0.0.1:5000`
-
-## 💻 Usage
-
-### Web Interface
-
-1. **Upload Files**: Drag and drop HTML files or click to browse
-2. **Select Languages**: Choose target languages from the available options
-3. **Run Localization**: Click the "Run Localization" button
-4. **Download Results**: Get your translated files from the results panel
-
-### Command Line Interface
-
-For headless/automated workflows, use the CLI:
+### Translate a Single File
 
 ```bash
-# Translate a single file
-python translator.py --file index.html --languages de es fr
-
-# Translate an entire directory
-python translator.py --dir ./html_files --languages de
-
-# Use custom configuration
-python translator.py --file index.html --config custom_config.yaml
+python translator.py --file your-file.html
 ```
 
-## 📋 Configuration
+This will create translated versions like:
+- `your-file-de.html` (German)
+- `your-file-es.html` (Spanish)
+- `your-file-fr.html` (French)
+
+### Translate All Files in a Directory
+
+```bash
+python translator.py --dir ./html_files
+```
+
+### Translate to Specific Languages
+
+```bash
+python translator.py --file index.html --languages de es
+```
+
+## Configuration
 
 Edit `config.yaml` to customize behavior:
 
 ```yaml
-source_language: "en"
-target_languages:
+source_language: "en"           # Source language
+target_languages:               # Languages to translate to
   - "de"  # German
   - "es"  # Spanish
   - "fr"  # French
 
-skip_already_translated: true
-batch_size: 10
-max_retries: 3
-retry_delay: 1
-output_suffix: true
-output_directory: null
-api_rate_limit: 60
-timeout: 30
+skip_already_translated: true   # Skip existing translations
+batch_size: 10                  # Text segments per API call
+max_retries: 3                  # Retry failed translations
+output_suffix: true             # Add language code to filename
 ```
 
-## 🌍 Supported Languages
+### Supported Languages
 
-| Language | Code | | Language | Code |
-|----------|------|-|----------|------|
-| German 🇩🇪 | `de` | | Italian 🇮🇹 | `it` |
-| Spanish 🇪🇸 | `es` | | Japanese 🇯🇵 | `ja` |
-| French 🇫🇷 | `fr` | | Dutch 🇳🇱 | `nl` |
-| Turkish 🇹🇷 | `tr` | | | |
+Common language codes:
+- `de` - German
+- `es` - Spanish
+- `fr` - French
+- `it` - Italian
+- `pt` - Portuguese
+- `ru` - Russian
+- `ja` - Japanese
+- `zh` - Chinese
+- `ko` - Korean
+- `ar` - Arabic
+- `nl` - Dutch
+- `pl` - Polish
+- `sv` - Swedish
+- `no` - Norwegian
+- `da` - Danish
+- `fi` - Finnish
 
-*More languages can be added easily by editing the HTML template.*
+## What Gets Translated
 
-## 🎯 What Gets Translated
-
-✅ **Translated:**
+✅ **Translated**:
 - All visible text content (headings, paragraphs, lists)
-- Image alt attributes
-- Title attributes  
+- Image alt text
+- Title attributes
 - Meta descriptions and keywords
 
-❌ **Preserved Exactly:**
+❌ **Preserved Exactly**:
 - HTML tags and structure
 - CSS classes and IDs
 - Inline styles
 - Image paths and URLs
-- Links (href attributes)
+- External links (href attributes)
 - Data attributes
 - Scripts and code blocks
 
-## 🏗️ Project Structure
+## Command Line Options
 
 ```
-localization_automation/
-├── app.py                 # Flask web server
-├── translator.py          # Core translation engine & CLI
-├── config.yaml           # Configuration file
-├── requirements.txt      # Python dependencies
-├── templates/
-│   └── index.html       # Web UI
-├── uploads/             # Temporary upload folder (auto-created)
-└── translated_output/   # Translation results (auto-created)
+python translator.py [OPTIONS]
+
+Options:
+  --dir PATH              Directory containing HTML files
+  --file PATH             Single HTML file to translate
+  --languages LANG [LANG] Target languages (overrides config)
+  --config PATH           Config file path (default: config.yaml)
+  --api-key-file PATH     API key file path (default: api_key.txt)
 ```
 
-## 🔧 Development
+## Examples
 
-### Run in Debug Mode
+### Example 1: Translate website files to German
 
 ```bash
-python app.py
+python translator.py --dir ./website --languages de
 ```
 
-The server will run on `http://127.0.0.1:5000` with auto-reload enabled.
-
-### Run Tests
+### Example 2: Translate single page to multiple languages
 
 ```bash
-# Test with example file
-python translator.py --file example/sample.html --languages de
+python translator.py --file index.html --languages de es fr it
 ```
 
-## 📝 Technical Details
+### Example 3: Use custom configuration
 
-- **Backend**: Python Flask 3.0
-- **AI Model**: Google Gemini 2.5 Flash
-- **HTML Parser**: Beautiful Soup 4 with lxml
-- **Frontend**: Tailwind CSS, Vanilla JavaScript
-- **Real-time Updates**: Server-Sent Events (SSE)
+```bash
+python translator.py --dir ./docs --config custom_config.yaml
+```
 
-## 🤝 Contributing
+## Output
 
-Contributions are welcome! Feel free to:
+Translated files are saved with language suffixes:
+- `index.html` → `index-de.html`, `index-es.html`, etc.
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Directory structure is maintained:
+```
+input/
+  ├── index.html
+  └── pages/
+      └── about.html
 
-## 📄 License
+output/
+  ├── index-de.html
+  ├── index-es.html
+  └── pages/
+      ├── about-de.html
+      └── about-es.html
+```
 
-MIT License - feel free to use this project for any purpose.
+## Logs
 
-## 🙏 Acknowledgments
+Translation progress and errors are logged to:
+- Console (real-time)
+- `translation.log` (detailed logs)
 
-- Google Gemini AI for translation capabilities
-- Tailwind CSS for the beautiful UI framework
-- Flask for the lightweight web framework
+## Performance
 
-## 📧 Contact
+- **Speed**: ~50 files in < 5 minutes
+- **Rate Limiting**: Respects API limits (60 requests/minute by default)
+- **Batch Processing**: Optimizes API calls by grouping text segments
+- **Caching**: Skip already translated files (configurable)
 
-For questions or support, please open an issue on GitHub.
+## Error Handling
 
----
+The tool handles common issues automatically:
+- **Invalid HTML**: Attempts to parse and translate anyway
+- **API failures**: Retries with exponential backoff
+- **Missing files**: Skips with error message
+- **Encoding issues**: Forces UTF-8
+- **Rate limiting**: Automatic throttling
 
-Made with ❤️ by [Kira Shapoval](https://github.com/kirashapoval)
+## Troubleshooting
+
+### "API key not found"
+- Ensure `api_key.txt` exists with your key
+- Or set `GEMINI_API_KEY` environment variable
+
+### "No HTML files found"
+- Check directory path is correct
+- Ensure files have `.html` or `.htm` extension
+
+### Translation quality issues
+- Adjust `temperature` in `translate_text_batch()` method
+- Reduce `batch_size` for better context
+- Check source language is correctly set
+
+### Rate limit errors
+- Reduce `api_rate_limit` in config.yaml
+- Increase delay between batches
+
+## Advanced Usage
+
+### Dry Run (check what would be translated)
+
+```python
+from translator import HTMLTranslator, load_config
+from pathlib import Path
+
+config = load_config()
+translator = HTMLTranslator(config)
+
+# Extract text without translating
+from bs4 import BeautifulSoup
+with open('file.html', 'r') as f:
+    soup = BeautifulSoup(f.read(), 'lxml')
+    nodes = translator.extract_translatable_text(soup)
+    for _, text in nodes:
+        print(f"Would translate: {text}")
+```
+
+### Custom Output Directory
+
+```yaml
+# In config.yaml
+output_directory: "./translated"
+```
+
+## License
+
+MIT License - Feel free to use and modify as needed.
+
+## Support
+
+For issues or questions, check:
+1. `translation.log` for detailed error messages
+2. Ensure API key is valid and has quota remaining
+3. Verify HTML files are valid and UTF-8 encoded
+
