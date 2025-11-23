@@ -136,11 +136,11 @@ def stream():
     def event_stream():
         while True:
             try:
-                # Get message from queue with timeout
-                message = message_queue.get(timeout=30)
+                # Get message from queue with shorter timeout for better keepalive
+                message = message_queue.get(timeout=10)
                 yield sse_format(message)
             except queue.Empty:
-                # Send keepalive
+                # Send keepalive every 10 seconds
                 yield sse_format({'type': 'ping'})
                 
     return Response(event_stream(), mimetype="text/event-stream")
