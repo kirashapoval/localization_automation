@@ -1,0 +1,17 @@
+{
+  "name": "Book Translator",
+  "id": "book-translator-plugin",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "dist/ui.html",
+  "capabilities": [],
+  "enableProposedApi": false,
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": [
+      "https://generativelanguage.googleapis.com"
+    ]
+  }
+}
+

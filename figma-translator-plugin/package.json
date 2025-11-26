@@ -1,0 +1,31 @@
+{
+  "name": "figma-translator-plugin",
+  "version": "1.0.0",
+  "description": "Figma plugin for translating book content with automatic text adaptation",
+  "main": "dist/code.js",
+  "scripts": {
+    "build": "npm run build:code && npm run build:ui",
+    "build:code": "esbuild src/code.ts --bundle --outfile=dist/code.js --target=es2017",
+    "build:ui": "cp src/ui.html dist/ui.html",
+    "watch": "npm run build && concurrently \"npm run watch:code\" \"npm run watch:ui\"",
+    "watch:code": "esbuild src/code.ts --bundle --outfile=dist/code.js --target=es2017 --watch",
+    "watch:ui": "cpx \"src/ui.html\" dist --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.100.0",
+    "concurrently": "^8.2.2",
+    "cpx": "^1.5.0",
+    "esbuild": "^0.20.0",
+    "typescript": "^5.3.3"
+  },
+  "keywords": [
+    "figma",
+    "plugin",
+    "translation",
+    "localization"
+  ],
+  "author": "",
+  "license": "MIT"
+}
+

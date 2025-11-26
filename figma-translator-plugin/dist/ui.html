@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    :root {
+      --bg-primary: #1e1e1e;
+      --bg-secondary: #2d2d2d;
+      --bg-tertiary: #3d3d3d;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0a0;
+      --accent: #7c5cff;
+      --accent-hover: #9b7fff;
+      --success: #30d158;
+      --warning: #ffd60a;
+      --error: #ff453a;
+      --border: #404040;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 12px;
+      color: var(--text-primary);
+      background: var(--bg-primary);
+      padding: 16px;
+      min-height: 100vh;
+    }
+    
+    .header {
+      margin-bottom: 20px;
+    }
+    
+    .header h1 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      background: linear-gradient(135deg, var(--accent), #ff6b6b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .header p {
+      color: var(--text-secondary);
+      font-size: 11px;
+    }
+    
+    .selection-info {
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+    }
+    
+    .selection-info .label {
+      color: var(--text-secondary);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    
+    .selection-info .stats {
+      display: flex;
+      gap: 16px;
+    }
+    
+    .selection-info .stat {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .selection-info .stat-value {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    
+    .selection-info .stat-label {
+      font-size: 10px;
+      color: var(--text-secondary);
+    }
+    
+    .form-group {
+      margin-bottom: 16px;
+    }
+    
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    input[type="text"],
+    input[type="password"],
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 12px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    
+    input:focus,
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(124, 92, 255, 0.2);
+    }
+    
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a0a0a0' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    
+    button {
+      flex: 1;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+    
+    .btn-primary:hover:not(:disabled) {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+    
+    .btn-secondary {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+    
+    .btn-secondary:hover:not(:disabled) {
+      background: #4d4d4d;
+    }
+    
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .progress-section {
+      display: none;
+      margin-top: 20px;
+    }
+    
+    .progress-section.active {
+      display: block;
+    }
+    
+    .progress-bar-container {
+      background: var(--bg-secondary);
+      border-radius: 4px;
+      height: 8px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #ff6b6b);
+      width: 0%;
+      transition: width 0.3s ease;
+      border-radius: 4px;
+    }
+    
+    .progress-text {
+      font-size: 11px;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+    
+    .preview-section {
+      display: none;
+      margin-top: 20px;
+    }
+    
+    .preview-section.active {
+      display: block;
+    }
+    
+    .preview-header {
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+    
+    .preview-list {
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    
+    .preview-item {
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .preview-item:last-child {
+      border-bottom: none;
+    }
+    
+    .preview-item .style-name {
+      font-weight: 500;
+    }
+    
+    .preview-item .style-info {
+      font-size: 10px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+    
+    .preview-item .change {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    
+    .preview-item .change.decrease {
+      background: rgba(255, 69, 58, 0.15);
+      color: var(--error);
+    }
+    
+    .preview-item .change.no-change {
+      background: rgba(48, 209, 88, 0.15);
+      color: var(--success);
+    }
+    
+    .log-section {
+      margin-top: 16px;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      max-height: 120px;
+      overflow-y: auto;
+      display: none;
+    }
+    
+    .log-section.active {
+      display: block;
+    }
+    
+    .log-entry {
+      padding: 8px 12px;
+      font-size: 10px;
+      font-family: 'SF Mono', Monaco, monospace;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .log-entry:last-child {
+      border-bottom: none;
+    }
+    
+    .log-entry.error {
+      color: var(--error);
+    }
+    
+    .log-entry.success {
+      color: var(--success);
+    }
+    
+    .warning-banner {
+      background: rgba(255, 214, 10, 0.1);
+      border: 1px solid var(--warning);
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 16px;
+      font-size: 11px;
+      color: var(--warning);
+      display: none;
+    }
+    
+    .warning-banner.active {
+      display: block;
+    }
+    
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #505050;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Book Translator</h1>
+    <p>Translate and adapt text for multiple languages</p>
+  </div>
+  
+  <div class="warning-banner" id="warningBanner">
+    Please select frames containing book pages before running the plugin.
+  </div>
+  
+  <div class="selection-info">
+    <div class="label">Selection</div>
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-value" id="frameCount">0</span>
+        <span class="stat-label">Frames</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="textNodeCount">0</span>
+        <span class="stat-label">Text Layers</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label for="apiKey">Gemini API Key</label>
+    <input type="password" id="apiKey" placeholder="Enter your API key...">
+  </div>
+  
+  <div class="form-group">
+    <label for="targetLanguage">Target Language</label>
+    <select id="targetLanguage">
+      <option value="de">German (Deutsch)</option>
+      <option value="es">Spanish (Español)</option>
+      <option value="fr">French (Français)</option>
+      <option value="it">Italian (Italiano)</option>
+      <option value="pt">Portuguese (Português)</option>
+      <option value="ru">Russian (Русский)</option>
+      <option value="pl">Polish (Polski)</option>
+      <option value="nl">Dutch (Nederlands)</option>
+      <option value="el">Greek (Ελληνικά)</option>
+      <option value="hr">Croatian (Hrvatski)</option>
+      <option value="cs">Czech (Čeština)</option>
+      <option value="sk">Slovak (Slovenčina)</option>
+      <option value="hu">Hungarian (Magyar)</option>
+      <option value="ro">Romanian (Română)</option>
+      <option value="bg">Bulgarian (Български)</option>
+      <option value="uk">Ukrainian (Українська)</option>
+      <option value="sv">Swedish (Svenska)</option>
+      <option value="da">Danish (Dansk)</option>
+      <option value="fi">Finnish (Suomi)</option>
+      <option value="no">Norwegian (Norsk)</option>
+    </select>
+  </div>
+  
+  <div class="button-group">
+    <button class="btn-secondary" id="analyzeBtn">Analyze</button>
+    <button class="btn-primary" id="translateBtn">Translate</button>
+  </div>
+  
+  <div class="progress-section" id="progressSection">
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="progress-text" id="progressText">Initializing...</div>
+  </div>
+  
+  <div class="preview-section" id="previewSection">
+    <div class="preview-header">Style Adaptations Preview</div>
+    <div class="preview-list" id="previewList">
+      <!-- Preview items will be inserted here -->
+    </div>
+    <div class="button-group" style="margin-top: 12px;">
+      <button class="btn-secondary" id="cancelBtn">Cancel</button>
+      <button class="btn-primary" id="applyBtn">Apply Changes</button>
+    </div>
+  </div>
+  
+  <div class="log-section" id="logSection">
+    <!-- Log entries will be inserted here -->
+  </div>
+
+  <script>
+    // State
+    let isProcessing = false;
+    let analysisComplete = false;
+    
+    // Elements
+    const apiKeyInput = document.getElementById('apiKey');
+    const targetLanguageSelect = document.getElementById('targetLanguage');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const translateBtn = document.getElementById('translateBtn');
+    const progressSection = document.getElementById('progressSection');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    const previewSection = document.getElementById('previewSection');
+    const previewList = document.getElementById('previewList');
+    const applyBtn = document.getElementById('applyBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const logSection = document.getElementById('logSection');
+    const frameCountEl = document.getElementById('frameCount');
+    const textNodeCountEl = document.getElementById('textNodeCount');
+    const warningBanner = document.getElementById('warningBanner');
+    
+    // Initialize
+    parent.postMessage({ pluginMessage: { type: 'getSettings' } }, '*');
+    
+    // Event Listeners
+    analyzeBtn.addEventListener('click', () => {
+      if (!validateInputs()) return;
+      startProcess(true);
+    });
+    
+    translateBtn.addEventListener('click', () => {
+      if (!validateInputs()) return;
+      startProcess(false);
+    });
+    
+    applyBtn.addEventListener('click', () => {
+      parent.postMessage({ pluginMessage: { type: 'applyChanges' } }, '*');
+    });
+    
+    cancelBtn.addEventListener('click', () => {
+      parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*');
+      resetUI();
+    });
+    
+    apiKeyInput.addEventListener('change', saveSettings);
+    targetLanguageSelect.addEventListener('change', saveSettings);
+    
+    function validateInputs() {
+      const apiKey = apiKeyInput.value.trim();
+      if (!apiKey) {
+        addLog('Please enter your Gemini API key', 'error');
+        logSection.classList.add('active');
+        return false;
+      }
+      return true;
+    }
+    
+    function startProcess(analyzeOnly) {
+      isProcessing = true;
+      analysisComplete = false;
+      
+      // Show progress
+      progressSection.classList.add('active');
+      previewSection.classList.remove('active');
+      logSection.classList.add('active');
+      
+      // Disable buttons
+      analyzeBtn.disabled = true;
+      translateBtn.disabled = true;
+      
+      // Clear previous logs
+      logSection.innerHTML = '';
+      
+      // Send message to plugin
+      parent.postMessage({
+        pluginMessage: {
+          type: 'translate',
+          targetLanguage: targetLanguageSelect.value,
+          apiKey: apiKeyInput.value.trim(),
+          analyzeOnly: analyzeOnly
+        }
+      }, '*');
+      
+      addLog(`Starting ${analyzeOnly ? 'analysis' : 'translation'}...`);
+    }
+    
+    function saveSettings() {
+      parent.postMessage({
+        pluginMessage: {
+          type: 'saveSettings',
+          settings: {
+            apiKey: apiKeyInput.value.trim(),
+            lastLanguage: targetLanguageSelect.value
+          }
+        }
+      }, '*');
+    }
+    
+    function resetUI() {
+      isProcessing = false;
+      analysisComplete = false;
+      progressSection.classList.remove('active');
+      previewSection.classList.remove('active');
+      progressBar.style.width = '0%';
+      analyzeBtn.disabled = false;
+      translateBtn.disabled = false;
+    }
+    
+    function addLog(message, type = '') {
+      const entry = document.createElement('div');
+      entry.className = 'log-entry' + (type ? ' ' + type : '');
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      logSection.appendChild(entry);
+      logSection.scrollTop = logSection.scrollHeight;
+    }
+    
+    function renderPreview(styleAdaptations) {
+      previewList.innerHTML = '';
+      
+      styleAdaptations.forEach(style => {
+        const item = document.createElement('div');
+        item.className = 'preview-item';
+        
+        const changeValue = style.fontSizeChange;
+        const changeClass = changeValue < 0 ? 'decrease' : 'no-change';
+        const changeText = changeValue < 0 
+          ? `${changeValue}pt` 
+          : 'No change';
+        
+        item.innerHTML = `
+          <div>
+            <div class="style-name">${style.styleName || 'Unnamed Style'}</div>
+            <div class="style-info">${style.affectedNodes} nodes · ${style.originalFontSize}pt → ${style.newFontSize}pt</div>
+          </div>
+          <span class="change ${changeClass}">${changeText}</span>
+        `;
+        
+        previewList.appendChild(item);
+      });
+    }
+    
+    // Handle messages from plugin
+    window.onmessage = (event) => {
+      const msg = event.data.pluginMessage;
+      if (!msg) return;
+      
+      switch (msg.type) {
+        case 'settings':
+          if (msg.settings.apiKey) {
+            apiKeyInput.value = msg.settings.apiKey;
+          }
+          if (msg.settings.lastLanguage) {
+            targetLanguageSelect.value = msg.settings.lastLanguage;
+          }
+          break;
+          
+        case 'selectionInfo':
+          frameCountEl.textContent = msg.frameCount;
+          textNodeCountEl.textContent = msg.textNodeCount;
+          if (msg.frameCount === 0) {
+            warningBanner.classList.add('active');
+            analyzeBtn.disabled = true;
+            translateBtn.disabled = true;
+          } else {
+            warningBanner.classList.remove('active');
+            analyzeBtn.disabled = false;
+            translateBtn.disabled = false;
+          }
+          break;
+          
+        case 'progress':
+          const percent = Math.round((msg.current / msg.total) * 100);
+          progressBar.style.width = percent + '%';
+          progressText.textContent = msg.message;
+          break;
+          
+        case 'analysis':
+          analysisComplete = true;
+          progressSection.classList.remove('active');
+          previewSection.classList.add('active');
+          renderPreview(msg.preview);
+          addLog('Analysis complete. Review changes and click Apply.', 'success');
+          break;
+          
+        case 'complete':
+          resetUI();
+          addLog(`Complete! Processed ${msg.framesProcessed} frames, ${msg.nodesTranslated} nodes, ${msg.stylesModified} styles.`, 'success');
+          break;
+          
+        case 'error':
+          addLog(msg.message, 'error');
+          if (msg.details) {
+            addLog(msg.details, 'error');
+          }
+          resetUI();
+          break;
+      }
+    };
+  </script>
+</body>
+</html>
+
