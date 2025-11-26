@@ -1,4 +1,4 @@
-node_modules/
+# node_modules/ - включен в репозиторий для удобства
 dist/
 *.log
 .DS_Store
